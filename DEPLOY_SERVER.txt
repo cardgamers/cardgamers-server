@@ -1,0 +1,78 @@
+# Deploying the Game Server to Railway
+# This powers real-time multiplayer for Rummy, Bridge, etc.
+
+=======================================================
+STEP 1: CREATE A NEW GITHUB REPO FOR THE SERVER
+=======================================================
+
+1. Go to github.com → sign in
+2. Click "+" → "New repository"
+3. Name it: cardgamers-server
+4. Set to Public
+5. Click "Create repository"
+
+Then in Terminal:
+  cd ~/Downloads/cardgamers/server
+  git init
+  git add .
+  git commit -m "CardGamers game server"
+  git branch -M main
+  git remote add origin https://github.com/cardgamers/cardgamers-server.git
+  git push -u origin main
+
+=======================================================
+STEP 2: DEPLOY TO RAILWAY
+=======================================================
+
+1. Go to railway.app → sign in
+2. Click "New Project"
+3. Click "Deploy from GitHub repo"
+4. Select "cardgamers-server"
+5. Railway will detect it as a Node.js app automatically
+6. Click "Deploy Now"
+7. Wait 2-3 minutes for it to build
+
+=======================================================
+STEP 3: GET YOUR SERVER URL
+=======================================================
+
+1. In Railway, click your project
+2. Click "Settings" → "Networking"  
+3. Click "Generate Domain"
+4. You'll get a URL like: cardgamers-server.up.railway.app
+5. COPY THIS URL — you need it for the next step
+
+=======================================================
+STEP 4: ADD SERVER URL TO VERCEL
+=======================================================
+
+1. Go to vercel.com → your cardgamers-io project
+2. Settings → Environment Variables
+3. Add new variable:
+   Name: REACT_APP_GAME_SERVER_URL
+   Value: https://YOUR-RAILWAY-URL.up.railway.app
+4. Click Save
+5. Go to Deployments → click "Redeploy" on the latest deployment
+
+=======================================================
+STEP 5: TEST MULTIPLAYER
+=======================================================
+
+1. Go to cardgamers.io
+2. Sign in on TWO different browser tabs (or two devices)
+3. Both go to Games → Rummy
+4. One creates a table, one joins it
+5. Game should start automatically when both are in!
+
+=======================================================
+TROUBLESHOOTING
+=======================================================
+
+If "Connecting to game server..." never goes away:
+- Check Railway logs for errors
+- Make sure REACT_APP_GAME_SERVER_URL is set correctly in Vercel
+- Make sure you redeployed after adding the env variable
+
+If game server crashes:
+- Check Railway logs
+- Come back to Claude with the error message
